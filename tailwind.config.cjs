@@ -2,7 +2,14 @@
 module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		extend: {}
+		extend: {
+			colors: {
+				'button-blue': '#4649FF'
+			},
+			fontFamily: {
+				poppins: ['Poppins', 'sans-serif']
+			}
+		}
 	},
 	plugins: []
 };

@@ -8,10 +8,10 @@ export type agentType = {
 		characterTags: string[] | null | undefined;
 		displayIcon: string;
 		displayIconSmall: string;
-		bustPotrait: string;
-		fullPotrait: string;
-		fullPotraitV2: string;
-		killfeedPotrait: string;
+		bustPortrait: string;
+		fullPortrait: string;
+		fullPortraitV2: string;
+		killfeedPortrait: string;
 		background: string;
 		backgroundGradientColor: string[];
 		assetPath: string;
