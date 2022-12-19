@@ -1,8 +1,27 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import Title from '../components/Title.svelte';
+
+	type Role = {
+		[key: string]: string[];
+	};
+
 	export let data: PageData;
 	const { data: agentsData } = data;
-	let random = 0;
+	const filterArray: PageData['data'] = [];
+
+	$: filterArray;
+	$: random = 0;
+
+	const groupByRole = agentsData.reduce<Role>(function (role, agent) {
+		role[agent.role.displayName] = role[agent.role.displayName] || [];
+		role[agent.role.displayName].push(agent.displayName);
+
+		return role;
+	}, {});
+
+	console.log(groupByRole);
+
 	function handleClick() {
 		random = Math.floor(Math.random() * agentsData.length);
 		const agent = agentsData[random];
@@ -17,7 +36,7 @@
 <main>
 	<section class="flex flex-row gap-20">
 		<div class="flex flex-col" id="left-side">
-			<h1 class="text-[#EAEAEA] font-Poppins tracking-wide text-3xl">Agent Preview</h1>
+			<Title titleText="Agent preview" />
 			<div class="flex flex-col justify-center gap-3 mt-5">
 				<img
 					src={agentsData[random].displayIcon}
@@ -45,7 +64,29 @@
 			</div>
 		</div>
 		<div id="right-side">
-			<p class="text-white">right-side</p>
+			<Title titleText="Filter" />
+			<div class="mt-8" />
+			<p class="text-sm text-gray-400">Currently selected:</p>
+			<div class="mt-3">
+				<div class="flex flex-row gap-4">
+					<button
+						class="text-white bg-button-blue hover:bg-button-blue/80 transition-all duration-200 tracking-wide px-4 py-2 rounded-md text-center"
+					>
+						All selected
+					</button>
+					<button
+						class="text-white border-2 hover:text-gray-400 hover:border-gray-400 transition-all duration-200 border-dashed px-2 py-1 rounded-md text-center"
+					>
+						clear all selection
+					</button>
+				</div>
+				<div class="flex flex-col gap-3 mt-4" />
+				<div>
+					{#each Object.entries(groupByRole) as [role, agent]}
+						<p class="text-white">{role}, {agent}</p>
+					{/each}
+				</div>
+			</div>
 		</div>
 	</section>
 </main>
